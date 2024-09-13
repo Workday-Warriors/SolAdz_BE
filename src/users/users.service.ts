@@ -80,11 +80,11 @@ export class UsersService {
         return this.users.findOne({where: {address}});
     }
 
-    async getTopReferrers () {
+    async getTopReferrers (): Promise<User[]> {
         let referrers = [];
         const users = await this.users.findAll();
         referrers = [...users];
-        const length = referrers.length > 4 ? 4 : referrers.length;
+        const length = referrers.length > 5 ? 5 : referrers.length;
         for (let i = 0; i < length; i++) {
             for (let j = 1; j < referrers.length; j++) {
                 const count1 = await this.users.count({where: {referrer: referrers[i].address}});

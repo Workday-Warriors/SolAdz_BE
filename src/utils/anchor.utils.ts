@@ -47,3 +47,31 @@ export const createClaimCommissionTxn = async (address: string, amount: number) 
     const serialzed = Buffer.from(transaction.serialize()).toString('base64');
     return serialzed;
 }
+
+export const processTopSponsorPool = async (address: string, amount: number) => {
+    const ixn = await program.methods.runDistribution().accounts({
+        receiver: new PublicKey(address)
+    }).signers([signer.payer]).instruction();
+    const instructions = [ixn];
+    const { blockhash } = await connection.getLatestBlockhash();
+    const message = new TransactionMessage({
+        payerKey: signer.publicKey,
+        recentBlockhash: blockhash,
+        instructions,
+    }).compileToV0Message();
+    const transaction = new VersionedTransaction(message);
+    const signed = await signer.signTransaction(transaction);
+    await connection.sendTransaction(signed);
+}
+
+export const getTopSponsorPoolAmount = async () => {
+    const appStats = PublicKey.findProgramAddressSync(
+        [
+            utils.bytes.utf8.encode("app-stats")
+        ],
+        program.programId
+    )[0];
+    // @ts-ignore
+    const statsAccount = await program.account.appStats.fetch(appStats);
+    return Number(statsAccount.topSponserPool) / LAMPORTS_PER_SOL;
+}

@@ -1,5 +1,5 @@
 {
-  "address": "4x7sKJijVCFmwX5gQ273o1kA2SzDYTwepmTBZuTeTbPV",
+  "address": "Bk8UyhwyA1WwbWzKtrb3cZV4rbfQuutwhXTAPWTPxHSU",
   "metadata": {
     "name": "soladz",
     "version": "0.1.0",
@@ -198,6 +198,101 @@
       ]
     },
     {
+      "name": "claim_whale",
+      "discriminator": [
+        40,
+        237,
+        1,
+        128,
+        242,
+        191,
+        40,
+        177
+      ],
+      "accounts": [
+        {
+          "name": "investor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "investor_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  118,
+                  101,
+                  115,
+                  116,
+                  111,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "investor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "whale_pool",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  119,
+                  104,
+                  97,
+                  108,
+                  101,
+                  45,
+                  112,
+                  111,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "app_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  112,
+                  112,
+                  45,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
       "name": "init_investor_with_ref",
       "discriminator": [
         160,
@@ -281,6 +376,29 @@
                   117,
                   108,
                   116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "whale_pool",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  119,
+                  104,
+                  97,
+                  108,
+                  101,
+                  45,
+                  112,
+                  111,
+                  111,
+                  108
                 ]
               }
             ]
@@ -428,6 +546,29 @@
                   117,
                   108,
                   116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "whale_pool",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  119,
+                  104,
+                  97,
+                  108,
+                  101,
+                  45,
+                  112,
+                  111,
+                  111,
+                  108
                 ]
               }
             ]
@@ -914,6 +1055,11 @@
       "code": 6007,
       "name": "InvalidTime",
       "msg": "Invalid Time"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidWhale",
+      "msg": "Invalid whale"
     }
   ],
   "types": [
@@ -940,11 +1086,7 @@
           },
           {
             "name": "last_top_sponser_distribution",
-            "type": "u64"
-          },
-          {
-            "name": "last_whale_distribution",
-            "type": "u64"
+            "type": "i64"
           },
           {
             "name": "owner",
@@ -952,6 +1094,10 @@
           },
           {
             "name": "total_withdraw",
+            "type": "u64"
+          },
+          {
+            "name": "whale_counts",
             "type": "u64"
           }
         ]
@@ -996,6 +1142,10 @@
           },
           {
             "name": "last_update_commission",
+            "type": "i64"
+          },
+          {
+            "name": "last_update_whale",
             "type": "i64"
           }
         ]
