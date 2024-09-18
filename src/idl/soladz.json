@@ -709,26 +709,6 @@
       ]
     },
     {
-      "name": "matching_bonus_view",
-      "discriminator": [
-        44,
-        8,
-        97,
-        90,
-        193,
-        99,
-        183,
-        80
-      ],
-      "accounts": [
-        {
-          "name": "investor_account"
-        }
-      ],
-      "args": [],
-      "returns": "u64"
-    },
-    {
       "name": "open_new_cycle",
       "discriminator": [
         95,

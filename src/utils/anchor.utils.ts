@@ -13,6 +13,24 @@ const program = new Program(IDL as Idl, provider);
 
 export const getReward = async (address: string) => {
     try {
+        const investorAccount = PublicKey.findProgramAddressSync(
+            [
+                utils.bytes.utf8.encode("investor"),
+                new PublicKey(address).toBuffer()
+            ],
+            program.programId
+        )[0];
+        const reward = await program.methods.rewardView().accounts({
+            investorAccount
+        }).view();
+        return Number(reward) / LAMPORTS_PER_SOL;
+    } catch (e) {
+        return 0;
+    }
+}
+
+export const getLastClaim = async (address: string) => {
+    try {
         const investor = PublicKey.findProgramAddressSync(
             [
                 utils.bytes.utf8.encode("investor"),
@@ -22,9 +40,9 @@ export const getReward = async (address: string) => {
         )[0];
         // @ts-ignore
         const investorAccount = await program.account.investor.fetch(investor);
-        return Number(investorAccount.amount) / LAMPORTS_PER_SOL;
+        return Number(investorAccount.lastUpdateCommission);
     } catch (e) {
-        return 0;
+        return Math.floor(Date.now() / 1000);
     }
 }
 
